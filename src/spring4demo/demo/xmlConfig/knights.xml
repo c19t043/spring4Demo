@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd"> 
+<!-- 	<bean id="knight" class="spring4demo.demo.BraveKnight">
+		<constructor-arg ref="quest" />
+	</bean> -->
+<!-- 	<bean id="knight" class="spring4demo.demo.BraveKnight" c:quest-ref="quest" /> -->
+	<!-- <bean id="knight" class="spring4demo.demo.BraveKnight" c:_0-ref="quest" /> -->
+		<bean id="knight" class="spring4demo.demo.BraveKnight" c:_-ref="quest" />
+<!-- 	<bean id="quest" class="spring4demo.demo.SlayDragonQuest" >
+		<constructor-arg value="#{T(System).out}" />
+	</bean> -->
+	<bean id="quest" class="spring4demo.demo.SlayDragonQuest" c:stream="{T(System).out}"/>
+	<bean id="minstrel" class="spring4demo.demo.Minstrel">
+		<constructor-arg value="#{T(System).out}" />
+	</bean>
+	<aop:config>
+		<aop:aspect ref="minstrel">
+			<!-- 定义切入点 -->
+			<aop:pointcut expression="execution(* *.embarkOnQuest(..))" id="embark"/>
+			<!-- 声明前置通知 -->
+			<aop:before method="singBeforeQuest" pointcut-ref="embark"/>
+			<!-- 声明后置通知 -->
+			<aop:after method="singAfterQuest" pointcut-ref="embark"/>
+		</aop:aspect>
+	</aop:config>
+</beans>	
