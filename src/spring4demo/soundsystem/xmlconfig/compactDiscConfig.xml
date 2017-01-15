@@ -27,11 +27,20 @@
 		 c:artist="The Beatles"
 		 c:title="Sgt. Pepper's Lonely Hearts Club Band">
 	</bean> -->
-	<bean  id="compactDisc" class="spring4demo.soundsystem.BlankDisc"
+<!-- 	<bean  id="compactDisc" class="spring4demo.soundsystem.BlankDisc"
 		 c:_0="The Beatles"
 		 c:_1="Sgt. Pepper's Lonely Hearts Club Band">
+	</bean> -->
+	<bean  id="compactDisc" class="spring4demo.soundsystem.BlankDisc"
+		 c:_0="${disc.titile}"
+		 c:_1="${disc.artist}">
+		 <!-- 基于目标类生成代理 
+		 	proxy-target-class="true"默认使用cglib生成代理
+		 	proxy-target-class="false"使用接口生成代理
+		 	基于目标类是接口还是类使用
+		  -->
+		 <aop:scoped-proxy proxy-target-class="true" />
 	</bean>
-	
 <!-- 	<bean  id="compactDisc" class="spring4demo.soundsystem.collections.BlankDisc">
 		<constructor-arg value="Sgt. Pepper's Lonely Hearts Club Band"/>
 		<constructor-arg value="The Beatles"/>

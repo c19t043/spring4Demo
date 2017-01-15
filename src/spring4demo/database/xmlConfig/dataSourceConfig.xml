@@ -23,8 +23,29 @@
 						http://www.springframework.org/schema/tx/spring-tx.xsd
 						http://www.springframework.org/schema/util
 						http://www.springframework.org/schema/util/spring-util.xsd"> 
-	<!-- c:构造函数 -->						
-	<!-- p:属性 -->
-	<!-- util:工具集合 -->
-	<!-- jdbc:数据库连接配置 -->
+	<beans profile="dev">
+		<jdbc:embedded-database id="dataSource">
+			<jdbc:script location="classpath:schema.sql" />
+			<jdbc:script location="classpath:test-data.sql" />
+		</jdbc:embedded-database>
+	</beans>
+
+	<beans profile="qa">
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+			destroy-method="close"
+			p:url="jdbc:h2:tcp:/dbserver/~/test"
+			p:driverClassName="org.h2.Driver"
+			p:username="sa"
+			p:password="password"
+			p:initialSize="20"
+			p:maxActive="30"
+		 />
+	</beans>
+	<beans profile="prod">
+		<jee:jndi-lookup id="dataSource" 
+			jndi-name="jdbc/myDataBase"
+			resource-ref="true"
+			proxy-interface="javax.sql.DataSource"
+		/>
+	</beans>
 </beans>	
